@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import initDb from '@/db';
+import Database from './db';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -13,11 +13,14 @@ Vue.use(Vuetify);
 
 Vue.config.productionTip = false;
 
-initDb('Departments').then((res) => console.log(res));
+const db = new Database();
+Vue.prototype.$db = db;
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: (h) => h(App),
-}).$mount('#app');
+db.init('Departments').then(() => {
+  new Vue({
+    router,
+    store,
+    vuetify,
+    render: (h) => h(App),
+  }).$mount('#app');
+});
