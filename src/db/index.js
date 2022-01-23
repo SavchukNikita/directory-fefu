@@ -5,14 +5,14 @@ export default class Database {
   // eslint-disable-next-line class-methods-use-this
   async init(name, ver = 1) {
     this.db = await createDatabase(data, name, ver);
-    this.store = this.db.transaction('Department', 'readonly').objectStore('Department');
 
     return this.db;
   }
 
   getAll() {
     return new Promise((resolve, reject) => {
-      const request = this.store.getAll();
+      const store = this.db.transaction('Department', 'readonly').objectStore('Department');
+      const request = store.getAll();
       request.onsuccess = () => {
         resolve(request.result);
       };
@@ -24,7 +24,8 @@ export default class Database {
 
   getById(id) {
     return new Promise((resolve, reject) => {
-      const request = this.store.get(id);
+      const store = this.db.transaction('Department', 'readonly').objectStore('Department');
+      const request = store.get(id);
       request.onsuccess = () => {
         resolve(request.result);
       };

@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
+    :items="items"
   >
 
   </v-data-table>
@@ -11,6 +12,7 @@ export default {
   name: 'DepartmentTable',
 
   data: () => ({
+    items: [],
     headers: [
       {
         text: 'Название',

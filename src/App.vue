@@ -2,7 +2,7 @@
   <v-app class="app">
     <Header />
     <router-view />
-    <v-footer app class="footer">
+    <v-footer class="footer">
       <span>v. 1.0</span>
       <span class="px-1">—</span>
       <strong>github</strong>
