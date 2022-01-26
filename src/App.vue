@@ -1,5 +1,6 @@
 <template>
   <v-app class="app">
+    //хуй
     <Header />
     <router-view />
     <v-footer class="footer">
