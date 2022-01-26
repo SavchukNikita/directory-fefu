@@ -1,5 +1,4 @@
 <template>
-  //хуй
   <v-app class="app">
     <Header />
     <router-view />
