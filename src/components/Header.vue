@@ -19,9 +19,11 @@ export default {
   components: {
     Search,
   },
-  data: () => ({
-    isSearch: false,
-  }),
+  data() {
+    return {
+      search: null,
+    };
+  },
 };
 </script>
 
