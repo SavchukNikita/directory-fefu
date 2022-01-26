@@ -6,21 +6,19 @@
         <span>Справочник подразделений</span>
       </div>
     </div>
-    <v-text-field
-      outlined
-      hide-details
-      dense
-      class="header__input"
-      append-icon="mdi-zoom"
-      placeholder="Поиск подразделений"
-    />
+    <Search></Search>
   </header>
 </template>
 
 <script>
+import Search from '@/components/search.vue';
+
 export default {
   name: 'Header',
 
+  components: {
+    Search,
+  },
   data: () => ({
     isSearch: false,
   }),

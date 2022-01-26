@@ -41,5 +41,10 @@ export default {
       },
     ],
   }),
+  created() {
+    this.$db.getAll().then((res) => {
+      this.items = res;
+    });
+  },
 };
 </script>
