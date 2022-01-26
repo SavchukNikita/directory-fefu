@@ -41,7 +41,9 @@ export default class Database {
     const fKeys = Object.keys(filters);
 
     fKeys.forEach((k) => {
-      res = res.filter((depart) => depart[k] === filters[k]);
+      if (filters[k]) {
+        res = res.filter((depart) => depart[k] === filters[k]);
+      }
     });
 
     return res;
@@ -55,6 +57,14 @@ export default class Database {
   async getLeads() {
     let res = await this.getAll();
     res = res.map((depart) => depart.lead);
+    res = res.filter(this.onlyUnique);
+
+    return res;
+  }
+
+  async getName() {
+    let res = await this.getAll();
+    res = res.map((depart) => depart.name);
     res = res.filter(this.onlyUnique);
 
     return res;

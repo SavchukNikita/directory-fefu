@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="items"
+    :items="tables"
   >
 
   </v-data-table>
@@ -12,7 +12,6 @@ export default {
   name: 'DepartmentTable',
 
   data: () => ({
-    items: [],
     headers: [
       {
         text: 'Название',
@@ -41,10 +40,10 @@ export default {
       },
     ],
   }),
+  props: {
+    tables: [],
+  },
   created() {
-    this.$db.getAll().then((res) => {
-      this.items = res;
-    });
   },
 };
 </script>
