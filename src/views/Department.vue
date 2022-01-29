@@ -2,7 +2,7 @@
   <div class="page department">
     <div class="page__section">
       <div class="department__title">
-        Подразделение с каким-то названием
+        {{ id }}
       </div>
       <div class="department__common">
         <div class="department__info">
@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="page__section">
-      <DepartmentTable />
+      <DepartmentTable :tables="tableData"/>
     </div>
   </div>
 </template>
@@ -71,9 +71,17 @@ import DepartmentTable from '@/components/DepartmentTable.vue';
 
 export default {
   name: 'Department',
+  data: () => ({
+    tableData: [],
+  }),
 
   components: {
     DepartmentTable,
+  },
+  created() {
+    this.$db.getAll().then((res) => {
+      this.tableData = res;
+    });
   },
 };
 </script>

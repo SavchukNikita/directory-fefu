@@ -1,14 +1,19 @@
 <template>
     <v-autocomplete
+      v-model="model"
       :items="items"
       :search-input.sync="search"
+      chips
+      clearable
       solo
       outlined
+      item-text="name"
       hide-details
       dense
       class="header__input"
       append-icon="mdi-zoom"
-      placeholder="Поиск"
+      label="Поиск"
+      item-value="symbol"
     />
 </template>
 
@@ -25,10 +30,10 @@ export default {
   },
   watch: {
     search(val) {
+      console.log(val);
       if (!val) {
         return;
       }
-
       this.debounce();
     },
   },
@@ -41,12 +46,9 @@ export default {
       }, 1000);
     },
     searchName() {
-      this.$db
-        .searchByName(this.search)
-        .then((res) => {
-          console.log(res);
-          this.items = res;
-        });
+      this.$db.searchByName(this.search).then((res) => {
+        this.items = res;
+      });
     },
   },
 };

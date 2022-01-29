@@ -67,7 +67,6 @@ export default {
   },
   methods: {
     filter() {
-      // eslint-disable-next-line max-len
       this.$db
         .getByFilters({ lead: this.lead, name: this.name, address: this.addres })
         .then((res) => {

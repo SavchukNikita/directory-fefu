@@ -2,8 +2,8 @@
   <v-data-table
     :headers="headers"
     :items="tables"
+    @click:row="blink(tables)"
   >
-
   </v-data-table>
 </template>
 
@@ -13,6 +13,11 @@ export default {
 
   data: () => ({
     headers: [
+      {
+        text: 'Id',
+        value: 'id',
+        sortable: false,
+      },
       {
         text: 'Название',
         value: 'name',
@@ -43,7 +48,16 @@ export default {
   props: {
     tables: [],
   },
-  created() {
+  methods: {
+    blink(event) {
+      console.log(event.id);
+      // this.$router.push({
+      //   path: `/${event.id}`,
+      //   params: {
+      //     items: event,
+      //   },
+      // });
+    },
   },
 };
 </script>
