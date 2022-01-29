@@ -2,7 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="tables"
-    @click:row="blink(tables)"
+    @click:row="blink"
   >
   </v-data-table>
 </template>
@@ -49,8 +49,8 @@ export default {
     tables: [],
   },
   methods: {
-    blink(event) {
-      console.log(event.id);
+    blink(row) {
+      console.log(row);
       // this.$router.push({
       //   path: `/${event.id}`,
       //   params: {
