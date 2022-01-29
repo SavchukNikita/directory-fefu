@@ -14,11 +14,6 @@ export default {
   data: () => ({
     headers: [
       {
-        text: 'Id',
-        value: 'id',
-        sortable: false,
-      },
-      {
         text: 'Название',
         value: 'name',
         sortable: false,
@@ -51,12 +46,9 @@ export default {
   methods: {
     blink(row) {
       console.log(row);
-      // this.$router.push({
-      //   path: `/${event.id}`,
-      //   params: {
-      //     items: event,
-      //   },
-      // });
+      this.$router.push({
+        path: `/${row.id}`,
+      });
     },
   },
 };

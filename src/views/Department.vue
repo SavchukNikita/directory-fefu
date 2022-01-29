@@ -2,7 +2,7 @@
   <div class="page department">
     <div class="page__section">
       <div class="department__title">
-        {{ id }}
+        {{ departData.name }}
       </div>
       <div class="department__common">
         <div class="department__info">
@@ -19,7 +19,7 @@
               Руководитель:
             </span>
             <span class="department__info-text">
-              Иван Иванов
+              {{ departData.lead }}
             </span>
           </div>
           <div class="department__info-item">
@@ -35,7 +35,7 @@
               Адрес:
             </span>
             <span class="department__info-text">
-              Новая русская 3
+              {{ departData.address }}
             </span>
           </div>
           <div class="department__info-item">
@@ -51,7 +51,7 @@
               Штатная численность:
             </span>
             <span class="department__info-text">
-              34
+              {{ departData.peopleCount }}
             </span>
           </div>
         </div>
@@ -73,15 +73,28 @@ export default {
   name: 'Department',
   data: () => ({
     tableData: [],
+    id: null,
+    departData: {},
   }),
 
   components: {
     DepartmentTable,
   },
   created() {
-    this.$db.getAll().then((res) => {
-      this.tableData = res;
-    });
+    this.id = this.$route.params.id;
+    this.getData();
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.id = to.params.id;
+    this.getData();
+    next();
+  },
+  methods: {
+    async getData() {
+      this.departData = await this.$db.getById(this.id);
+      this.tableData = await this.$db.getByFilters({ dependence: this.id });
+      console.log(this.tableData);
+    },
   },
 };
 </script>

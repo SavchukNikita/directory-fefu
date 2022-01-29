@@ -85,6 +85,11 @@ export default {
   created() {
     this.$db.getAll().then((res) => {
       this.tableData = res;
+      this.tableData.forEach(async (row) => {
+        const Data = await this.$db.getById(row.dependence);
+        // eslint-disable-next-line no-param-reassign
+        row.dependence = Data.name;
+      });
     });
 
     this.$db.getLeads().then((res) => {
