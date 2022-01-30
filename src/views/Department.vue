@@ -43,7 +43,7 @@
               Подчиненость 3:
             </span>
             <span class="department__info-text">
-              Подразделение 1
+              {{ subord3 }}
             </span>
           </div>
           <div class="department__info-item">
@@ -75,6 +75,9 @@ export default {
     tableData: [],
     id: null,
     departData: {},
+    subord1: null,
+    subord2: null,
+    subord3: null,
   }),
 
   components: {
@@ -93,7 +96,15 @@ export default {
     async getData() {
       this.departData = await this.$db.getById(this.id);
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
-      console.log(this.tableData);
+      this.subord();
+      console.log(this.$db.getById(this.departData.dependence));
+    },
+    subord() {
+      this.subord3 = this.$db.getById(this.departData.dependence).name;
+
+      this.subord2 = this.$db.getByFilters(this.subord3).name;
+
+      this.subord1 = this.$db.getByFilters(this.subord2).name;
     },
   },
 };
