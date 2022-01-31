@@ -12,7 +12,7 @@
               Подчиненость 1:
             </span>
             <span class="department__info-text">
-              Подразделение 1
+              {{ subord1 }}
             </span>
           </div>
           <div class="department__info-item">
@@ -28,7 +28,7 @@
               Подчиненость 2:
             </span>
             <span class="department__info-text">
-              Подразделение 1
+              {{ subord2 }}
             </span>
           </div>
           <div class="department__info-item">
@@ -44,7 +44,7 @@
               Подчиненость 3:
             </span>
             <span class="department__info-text">
-              Подразделение 1
+              {{ subord3 }}
             </span>
           </div>
           <div class="department__info-item">
@@ -80,6 +80,9 @@ export default {
     id: null,
     visible: false,
     departData: {},
+    subord1: null,
+    subord2: null,
+    subord3: null,
   }),
 
   components: {
@@ -99,9 +102,22 @@ export default {
     async getData() {
       this.departData = await this.$db.getById(this.id);
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
+      this.subord();
     },
     getGraph() {
       this.visible = true;
+    },
+    subord() {
+      const Data = this.departData.dependence;
+      this.$db.getById(Data).then((res) => {
+        this.subord3 = res.name;
+        this.$db.getById(res.dependence).then((result) => {
+          this.subord2 = result.name;
+          this.$db.getById(result.dependence).then((result1) => {
+            this.subord1 = result1.name;
+          });
+        });
+      });
     },
   },
 };
