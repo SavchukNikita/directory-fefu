@@ -1,5 +1,6 @@
 <template>
   <div class="page department">
+    <Graph :id="departData.id" v-model="visible"></Graph>
     <div class="page__section">
       <div class="department__title">
         {{ departData.name }}
@@ -55,7 +56,9 @@
             </span>
           </div>
         </div>
-        <v-btn color="primary">
+        <v-btn
+          @click="getGraph()"
+          color="primary">
           Показать граф
         </v-btn>
       </div>
@@ -68,17 +71,20 @@
 
 <script>
 import DepartmentTable from '@/components/DepartmentTable.vue';
+import Graph from '@/components/Graph.vue';
 
 export default {
   name: 'Department',
   data: () => ({
     tableData: [],
     id: null,
+    visible: false,
     departData: {},
   }),
 
   components: {
     DepartmentTable,
+    Graph,
   },
   created() {
     this.id = this.$route.params.id;
@@ -93,7 +99,9 @@ export default {
     async getData() {
       this.departData = await this.$db.getById(this.id);
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
-      console.log(this.tableData);
+    },
+    getGraph() {
+      this.visible = true;
     },
   },
 };
