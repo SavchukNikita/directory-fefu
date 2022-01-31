@@ -11,9 +11,9 @@
             <span class="department__info-title">
               Подчиненость 1:
             </span>
-            <span class="department__info-text">
+            <a class="department__info-text">
               {{ subord1 }}
-            </span>
+            </a>
           </div>
           <div class="department__info-item">
             <span class="department__info-title">
@@ -27,9 +27,9 @@
             <span class="department__info-title">
               Подчиненость 2:
             </span>
-            <span class="department__info-text">
+            <a class="department__info-text">
               {{ subord2 }}
-            </span>
+            </a>
           </div>
           <div class="department__info-item">
             <span class="department__info-title">
@@ -43,9 +43,9 @@
             <span class="department__info-title">
               Подчиненость 3:
             </span>
-            <span class="department__info-text">
+            <a class="department__info-text">
               {{ subord3 }}
-            </span>
+            </a>
           </div>
           <div class="department__info-item">
             <span class="department__info-title">
@@ -139,7 +139,7 @@ export default {
 
     &__info {
       display: grid;
-      grid-template-columns: 300px 300px;
+      grid-template-columns: 600px 300px;
       gap: 12px 24px;
 
       &-item {
