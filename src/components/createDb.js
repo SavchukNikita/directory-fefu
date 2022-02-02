@@ -7,14 +7,7 @@ const init = (nameDb, version = 1) => new Promise((resolve, reject) => {
     const db = openRequest.result;
     if (!db.objectStoreNames.contains('Department')) {
       db.createObjectStore('Department', { keyPath: 'id' });
-    }
-
-    if (!db.objectStoreNames.contains('Score')) {
-      db.createObjectStore('Score', { keyPath: 'id' });
-    }
-
-    if (!db.objectStoreNames.contains('ScoreDepartment')) {
-      db.createObjectStore('ScoreDepartment', { keyPath: 'id' });
+      // добавить две таблицы Score, ScoreDepartment (keyPath: id)
     }
   };
 
@@ -34,15 +27,17 @@ const addEl = (transaction, element) => new Promise((resolve, reject) => {
   request.onsuccess = () => {
     resolve(request.result);
   };
-
   request.onerror = () => {
     reject(request.error);
   };
 });
 
-const addTransaction = (db, element, tableName) => new Promise((resolve, reject) => {
-  const transaction = db.transaction(tableName, 'readwrite');
-  const department = transaction.objectStore(tableName);
+// db, element, tableName
+const addTransaction = (db, element) => new Promise((resolve, reject) => {
+  // const transaction = db.transaction(tableName, 'readwrite');
+  const transaction = db.transaction('Department', 'readwrite');
+  // const department = transaction.objectStore(tableName);
+  const department = transaction.objectStore('Department');
   addEl(department, element)
     .then((res) => console.log('Сущность создана', res))
     .catch((error) => console.log('Ошибка создании сущности', error));
@@ -50,14 +45,14 @@ const addTransaction = (db, element, tableName) => new Promise((resolve, reject)
   transaction.oncomplete = () => {
     resolve(transaction.result);
   };
-
   transaction.onabort = () => {
     reject(transaction.error);
   };
 });
 
-const fill = async (textDep, textScore, textDepScore, db) => {
-  const objectArray = textDep.split('\n');
+// textDep, textScore, textDepScore, db - новые входные параметры
+const fill = async (text, db) => {
+  const objectArray = text.split('\n');
 
   for (let i = 0; i < objectArray.length; i += 1) {
     const o = objectArray[i].split(',');
@@ -69,57 +64,30 @@ const fill = async (textDep, textScore, textDepScore, db) => {
       address: o[4],
       peopleCount: o[5],
     };
-
     // eslint-disable-next-line no-await-in-loop
-    await addTransaction(db, tableItem, 'Department');
+    await addTransaction(db, tableItem);
   }
 
-  const objectArray1 = textScore.split('\n');
-  for (let i = 0; i < objectArray1.length; i += 1) {
-    const o = objectArray1[i].split(';');
-    const tableItem = {
-      id: o[0],
-      name: o[1],
-      measure: o[2],
-      measure_period: o[3],
-      type: o[4],
-    };
-
-    // eslint-disable-next-line no-await-in-loop
-    await addTransaction(db, tableItem, 'Score');
-  }
-
-  const objectArray2 = textDepScore.split('\n');
-  for (let i = 0; i < objectArray2.length; i += 1) {
-    const o = objectArray2[i].split(';');
-    const tableItem = {
-      id: i + 1,
-      id_department: o[0],
-      id_indicator: o[1],
-      planned: o[2],
-      fact: o[3],
-    };
-
-    // eslint-disable-next-line no-await-in-loop
-    await addTransaction(db, tableItem, 'ScoreDepartment');
-  }
+  // for x2
 };
 
-const createDatabase = async (textDep, textScore, textDepScore, nameDb, version = 1) => {
+// textDep, textScore, textDepScore
+const createDatabase = async (text, nameDb, version = 1) => {
   let db = null;
   try {
     db = await init(nameDb, version);
   } catch (error) {
     console.error(error);
   }
+
   const lastVersion = localStorage.getItem(DATABASE_V_KEY);
 
   // eslint-disable-next-line eqeqeq
   if (lastVersion != db.version) {
-    console.log('aa');
-    fill(textDep, textScore, textDepScore, db);
+    fill(text, db);
     localStorage.setItem(DATABASE_V_KEY, db.version);
   }
+
   return db;
 };
 

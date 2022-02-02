@@ -1,10 +1,12 @@
 import createDatabase from './createDb';
-import data from './data.txt';
+import dataDep from './dataDep.txt';
+import dataScore from './dataScore.txt';
+import dataDepScore from './dataDepScore.txt';
 
 export default class Database {
   // eslint-disable-next-line class-methods-use-this
   async init(name, ver = 1) {
-    this.db = await createDatabase(data, name, ver);
+    this.db = await createDatabase(dataDep, dataScore, dataDepScore, name, ver);
 
     return this.db;
   }

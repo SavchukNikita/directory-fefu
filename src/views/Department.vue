@@ -6,14 +6,14 @@
       </div>
       <div class="department__common">
         <div class="department__info">
-          <div class="department__info-item">
+          <!-- <div class="department__info-item">
             <span class="department__info-title">
               Подчиненость 1:
             </span>
             <span class="department__info-text">
               Подразделение 1
             </span>
-          </div>
+          </div> -->
           <div class="department__info-item">
             <span class="department__info-title">
               Руководитель:
@@ -22,14 +22,14 @@
               {{ departData.lead }}
             </span>
           </div>
-          <div class="department__info-item">
+          <!-- <div class="department__info-item">
             <span class="department__info-title">
               Подчиненость 2:
             </span>
             <span class="department__info-text">
               Подразделение 1
             </span>
-          </div>
+          </div> -->
           <div class="department__info-item">
             <span class="department__info-title">
               Адрес:
@@ -38,14 +38,14 @@
               {{ departData.address }}
             </span>
           </div>
-          <div class="department__info-item">
+          <!-- <div class="department__info-item">
             <span class="department__info-title">
               Подчиненость 3:
             </span>
             <span class="department__info-text">
               Подразделение 1
             </span>
-          </div>
+          </div> -->
           <div class="department__info-item">
             <span class="department__info-title">
               Штатная численность:
@@ -55,9 +55,9 @@
             </span>
           </div>
         </div>
-        <v-btn color="primary">
+        <!-- <v-btn color="primary">
           Показать граф
-        </v-btn>
+        </v-btn> -->
       </div>
     </div>
     <div class="page__section">
