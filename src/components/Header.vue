@@ -1,11 +1,11 @@
 <template>
   <header class="header">
-    <div class="header__section">
+    <router-link to="./" class="header__section">
       <img src="@/assets/logo.png" alt="logo" class="header__logo">
       <div class="header__title">
         <span>Справочник подразделений</span>
       </div>
-    </div>
+    </router-link>
     <Search></Search>
   </header>
 </template>
@@ -24,6 +24,11 @@ export default {
       search: null,
     };
   },
+  methods: {
+    goHome() {
+      this.$router.push({ path: './' });
+    },
+  },
 };
 </script>
 
@@ -39,6 +44,7 @@ export default {
     &__section {
       display: flex;
       align-items: center;
+      text-decoration: none;
     }
 
     &__logo {

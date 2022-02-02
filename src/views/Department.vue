@@ -1,19 +1,20 @@
 <template>
   <div class="page department">
+    <Graph :id="departData.id" v-model="visible"></Graph>
     <div class="page__section">
       <div class="department__title">
         {{ departData.name }}
       </div>
       <div class="department__common">
         <div class="department__info">
-          <!-- <div class="department__info-item">
+          <div class="department__info-item">
             <span class="department__info-title">
               Подчиненость 1:
             </span>
-            <span class="department__info-text">
-              Подразделение 1
-            </span>
-          </div> -->
+            <a @click="blink1()" class="department__info-text">
+              {{ subord1 }}
+            </a>
+          </div>
           <div class="department__info-item">
             <span class="department__info-title">
               Руководитель:
@@ -22,14 +23,14 @@
               {{ departData.lead }}
             </span>
           </div>
-          <!-- <div class="department__info-item">
+          <div class="department__info-item">
             <span class="department__info-title">
               Подчиненость 2:
             </span>
-            <span class="department__info-text">
-              Подразделение 1
-            </span>
-          </div> -->
+            <a @click="blink2()" class="department__info-text">
+              {{ subord2 }}
+            </a>
+          </div>
           <div class="department__info-item">
             <span class="department__info-title">
               Адрес:
@@ -38,14 +39,14 @@
               {{ departData.address }}
             </span>
           </div>
-          <!-- <div class="department__info-item">
+          <div class="department__info-item">
             <span class="department__info-title">
               Подчиненость 3:
             </span>
-            <span class="department__info-text">
-              Подразделение 1
-            </span>
-          </div> -->
+            <a @click="blink3()" class="department__info-text">
+              {{ subord3 }}
+            </a>
+          </div>
           <div class="department__info-item">
             <span class="department__info-title">
               Штатная численность:
@@ -55,30 +56,42 @@
             </span>
           </div>
         </div>
-        <!-- <v-btn color="primary">
+        <v-btn
+          @click="getGraph()"
+          color="primary">
           Показать граф
-        </v-btn> -->
+        </v-btn>
       </div>
     </div>
     <div class="page__section">
-      <DepartmentTable :tables="tableData"/>
+      <DepartmentTable hideDep :tables="tableData"/>
     </div>
   </div>
 </template>
 
 <script>
 import DepartmentTable from '@/components/DepartmentTable.vue';
+import Graph from '@/components/Graph.vue';
 
 export default {
   name: 'Department',
   data: () => ({
+    typeTable: 'department',
     tableData: [],
     id: null,
+    visible: false,
     departData: {},
+    subord1: null,
+    subord1Id: null,
+    subord2: null,
+    subord2Id: null,
+    subord3: null,
+    subord3Id: null,
   }),
 
   components: {
     DepartmentTable,
+    Graph,
   },
   created() {
     this.id = this.$route.params.id;
@@ -93,7 +106,40 @@ export default {
     async getData() {
       this.departData = await this.$db.getById(this.id);
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
-      console.log(this.tableData);
+      this.subord();
+    },
+    blink1() {
+      this.$router.push({
+        path: `/${this.subord1Id}`,
+      });
+    },
+    blink2() {
+      this.$router.push({
+        path: `/${this.subord2Id}`,
+      });
+    },
+    blink3() {
+      this.$router.push({
+        path: `/${this.subord3Id}`,
+      });
+    },
+    getGraph() {
+      this.visible = true;
+    },
+    subord() {
+      const Data = this.departData.dependence;
+      this.$db.getById(Data).then((res) => {
+        this.subord3 = res.name;
+        this.subord3Id = res.id;
+        this.$db.getById(res.dependence).then((result) => {
+          this.subord2 = result.name;
+          this.subord2Id = result.id;
+          this.$db.getById(result.dependence).then((result1) => {
+            this.subord1 = result1.name;
+            this.subord1Id = result1.id;
+          });
+        });
+      });
     },
   },
 };
@@ -115,7 +161,7 @@ export default {
 
     &__info {
       display: grid;
-      grid-template-columns: 300px 300px;
+      grid-template-columns: 600px 300px;
       gap: 12px 24px;
 
       &-item {
