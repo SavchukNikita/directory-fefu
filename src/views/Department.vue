@@ -11,7 +11,7 @@
             <span class="department__info-title">
               Подчиненость 1:
             </span>
-            <a class="department__info-text">
+            <a @click="blink1()" class="department__info-text">
               {{ subord1 }}
             </a>
           </div>
@@ -27,7 +27,7 @@
             <span class="department__info-title">
               Подчиненость 2:
             </span>
-            <a class="department__info-text">
+            <a @click="blink2()" class="department__info-text">
               {{ subord2 }}
             </a>
           </div>
@@ -43,7 +43,7 @@
             <span class="department__info-title">
               Подчиненость 3:
             </span>
-            <a class="department__info-text">
+            <a @click="blink3()" class="department__info-text">
               {{ subord3 }}
             </a>
           </div>
@@ -81,8 +81,11 @@ export default {
     visible: false,
     departData: {},
     subord1: null,
+    subord1Id: null,
     subord2: null,
+    subord2Id: null,
     subord3: null,
+    subord3Id: null,
   }),
 
   components: {
@@ -104,6 +107,24 @@ export default {
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
       this.subord();
     },
+    blink1() {
+      console.log(this.subord1);
+      this.$router.push({
+        path: `/${this.subord1Id}`,
+      });
+    },
+    blink2() {
+      console.log(this.subord2);
+      this.$router.push({
+        path: `/${this.subord2Id}`,
+      });
+    },
+    blink3() {
+      console.log(this.subord3);
+      this.$router.push({
+        path: `/${this.subord3Id}`,
+      });
+    },
     getGraph() {
       this.visible = true;
     },
@@ -111,10 +132,13 @@ export default {
       const Data = this.departData.dependence;
       this.$db.getById(Data).then((res) => {
         this.subord3 = res.name;
+        this.subord3Id = res.id;
         this.$db.getById(res.dependence).then((result) => {
           this.subord2 = result.name;
+          this.subord2Id = result.id;
           this.$db.getById(result.dependence).then((result1) => {
             this.subord1 = result1.name;
+            this.subord1Id = result1.id;
           });
         });
       });
