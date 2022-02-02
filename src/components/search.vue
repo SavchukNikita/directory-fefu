@@ -62,3 +62,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-menu__content {
+  max-width: 350px !important;
+}
+</style>
