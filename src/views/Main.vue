@@ -43,7 +43,7 @@
       </v-form>
     </div>
     <div class="page__section">
-      <DepartmentTable :tables="tableData"/>
+      <DepartmentTable :type="typeTable" :tables="tableData"/>
     </div>
   </div>
 </template>
@@ -54,6 +54,7 @@ import DepartmentTable from '@/components/DepartmentTable.vue';
 export default {
   name: 'Main',
   data: () => ({
+    typeTable: 'main',
     lead: null,
     name: null,
     addres: null,
@@ -71,6 +72,11 @@ export default {
         .getByFilters({ lead: this.lead, name: this.name, address: this.addres })
         .then((res) => {
           this.tableData = res;
+          this.tableData.forEach(async (row) => {
+            const Data = await this.$db.getById(row.dependence);
+            // eslint-disable-next-line no-param-reassign
+            row.dependence = Data.name;
+          });
         });
     },
     clear() {
@@ -79,6 +85,11 @@ export default {
       this.addres = null;
       this.$db.getAll().then((res) => {
         this.tableData = res;
+        this.tableData.forEach(async (row) => {
+          const Data = await this.$db.getById(row.dependence);
+          // eslint-disable-next-line no-param-reassign
+          row.dependence = Data.name;
+        });
       });
     },
   },

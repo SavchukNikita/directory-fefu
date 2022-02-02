@@ -64,7 +64,7 @@
       </div>
     </div>
     <div class="page__section">
-      <DepartmentTable :tables="tableData"/>
+      <DepartmentTable hideDep :tables="tableData"/>
     </div>
   </div>
 </template>
@@ -76,6 +76,7 @@ import Graph from '@/components/Graph.vue';
 export default {
   name: 'Department',
   data: () => ({
+    typeTable: 'department',
     tableData: [],
     id: null,
     visible: false,
@@ -108,19 +109,16 @@ export default {
       this.subord();
     },
     blink1() {
-      console.log(this.subord1);
       this.$router.push({
         path: `/${this.subord1Id}`,
       });
     },
     blink2() {
-      console.log(this.subord2);
       this.$router.push({
         path: `/${this.subord2Id}`,
       });
     },
     blink3() {
-      console.log(this.subord3);
       this.$router.push({
         path: `/${this.subord3Id}`,
       });
