@@ -85,4 +85,48 @@ export default class Database {
     res = res.filter((depart) => depart.name.indexOf(name, 0) >= 0);
     return res;
   }
+
+  async getScoreById(id) {
+    const allIndicators = await this.getAllIndicators();
+    const indicatorsById = allIndicators.filter((el) => el.id_department === id);
+
+    const res = [];
+
+    for (let i = 0; i < indicatorsById.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      const indicator = await this.getIndicatorById(indicatorsById[i].id_indicator);
+
+      res.push({ ...indicatorsById[i], ...indicator });
+    }
+
+    return res;
+  }
+
+  getAllIndicators() {
+    return new Promise((resolve, reject) => {
+      const store = this.db.transaction('ScoreDepartment', 'readonly').objectStore('ScoreDepartment');
+      const request = store.getAll();
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  getIndicatorById(id) {
+    return new Promise((resolve, reject) => {
+      const store = this.db.transaction('Score', 'readonly').objectStore('Score');
+      const request = store.get(id);
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
 }
