@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     route(e) {
-      console.log(e);
       this.$db.searchByName(e).then((res) => {
         this.$router.push({ path: `/${res[0].id}` });
       });
@@ -43,7 +42,6 @@ export default {
         this.model = null;
         this.search = null;
       });
-      console.log(this.search);
     },
     /* eslint-disable no-underscore-dangle */
     debounce() {
@@ -55,8 +53,6 @@ export default {
     searchName() {
       this.$db.searchByName(this.search).then((res) => {
         this.items = res;
-        console.log(this.search);
-        console.log(this.items);
       });
     },
   },

@@ -1,6 +1,7 @@
 <template>
   <div class="page department">
-    <Graph :id="departData.id" v-model="visible"></Graph>
+    <Graph :id="departData.id" v-model="graphVisible"></Graph>
+    <Indicators :id="departData.id" v-model="indicatorsVisible"></Indicators>
     <div class="page__section">
       <div class="department__title">
         {{ departData.name }}
@@ -56,11 +57,18 @@
             </span>
           </div>
         </div>
-        <v-btn
-          @click="getGraph()"
-          color="primary">
-          Показать граф
-        </v-btn>
+        <div class="department__actions">
+          <v-btn
+            @click="getGraph()"
+            color="primary">
+            Показать граф
+          </v-btn>
+          <v-btn
+            @click="getIndicators()"
+            color="primary">
+            Показатели
+          </v-btn>
+        </div>
       </div>
     </div>
     <div class="page__section">
@@ -72,6 +80,7 @@
 <script>
 import DepartmentTable from '@/components/DepartmentTable.vue';
 import Graph from '@/components/Graph.vue';
+import Indicators from '@/components/Indicators.vue';
 
 export default {
   name: 'Department',
@@ -79,7 +88,8 @@ export default {
     typeTable: 'department',
     tableData: [],
     id: null,
-    visible: false,
+    graphVisible: false,
+    indicatorsVisible: false,
     departData: {},
     subord1: null,
     subord1Id: null,
@@ -92,6 +102,7 @@ export default {
   components: {
     DepartmentTable,
     Graph,
+    Indicators,
   },
   created() {
     this.id = this.$route.params.id;
@@ -124,7 +135,10 @@ export default {
       });
     },
     getGraph() {
-      this.visible = true;
+      this.graphVisible = true;
+    },
+    getIndicators() {
+      this.indicatorsVisible = true;
     },
     subord() {
       const Data = this.departData.dependence;
@@ -146,13 +160,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .v-btn {
+    margin: 5px;
+    width: 60%
+  }
   .department {
     &__title {
       font-size: 24px;
       font-weight: 500;
       margin-bottom: 16px;
     }
-
+    &__actions {
+      text-align: right;
+      height: 100%;
+    }
     &__common {
       display: flex;
       align-items: center;

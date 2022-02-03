@@ -2,9 +2,9 @@
   <v-bottom-sheet
     v-model="vision"
     fullscreen
-    class="bottomsheet__graph">
+    class="bottomsheet__indicators">
     <v-sheet
-      class="sheet__graph ">
+      class="sheet__indicators">
       <v-row class="sheet" align='start' justify='center'>
         <v-row class="container" align='start' justify='end'>
           <v-btn class="closebtn" rounded
@@ -21,11 +21,9 @@
 </template>
 
 <script>
-import OrgChart from '@balkangraph/orgchart.js';
-import getGraphData from '../db/graph';
 
 export default {
-  name: 'Graph',
+  name: 'Indicators',
   data() {
     return {
       data: null,
@@ -33,7 +31,7 @@ export default {
   },
   model: {
     prop: 'vision',
-    event: 'graphVisible',
+    event: 'indicatorsVisible',
   },
   props: {
     id: null,
@@ -43,36 +41,20 @@ export default {
     },
   },
   methods: {
-    mytree(domEl, x) {
-      this.chart = new OrgChart(domEl, {
-        nodes: x,
-        nodeBinding: {
-          field_0: 'name',
-          img_0: 'img',
-        },
-      });
-    },
     close() {
-      this.$emit('graphVisible', false);
-    },
-  },
-  watch: {
-    id() {
-      this.data = getGraphData(this.id, this.$db);
-      console.log(this.data);
-      this.mytree(this.$refs.tree, this.data);
+      this.$emit('indicatorsVisible', false);
     },
   },
 };
 </script>
 
 <style>
-.bottomsheet__graph {
+.bottomsheet__indicators {
   background-color: #fefefe;
   max-height: 100vh !important;
   width: 100% !important
 }
-.sheet__graph {
+.sheet__indicators {
   background-color: #fefefe;
   width: 100% !important;
   height: 100% !important;
