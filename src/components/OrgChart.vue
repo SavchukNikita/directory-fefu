@@ -25,7 +25,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.data);
     this.mytree(this.$refs.tree, this.data);
   },
 };

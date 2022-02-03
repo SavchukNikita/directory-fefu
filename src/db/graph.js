@@ -7,13 +7,11 @@ export default async function getGraphData(id, db) {
   data.push({ id: root.id, name: root.name });
   // eslint-disable-next-line no-use-before-define
   getChildren(id, db);
-  console.log('data', data);
-  console.log('children', children);
   return data;
 }
 async function getChildren(id, db) {
   children[id] = await db.getByFilters({ dependence: id });
-  console.log(children[id], id);
+  // console.log(children[id], id);
   children[id].forEach((el) => {
     data.push({ id: el.id, pid: el.dependence, name: el.name });
     getChildren(el.id, db);

@@ -54,7 +54,6 @@ export default {
   watch: {
     async id() {
       this.data = await getGraphData(this.id, this.$db);
-      console.log(this.data);
     },
   },
 };
