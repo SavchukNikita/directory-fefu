@@ -72,7 +72,23 @@
       </div>
     </div>
     <div class="page__section">
-      <DepartmentTable hideDep :tables="tableData"/>
+      <details class="department__indicators">
+        <summary class="department__indicators-title">
+          <v-icon class="toggle-icon">
+            mdi-chevron-right
+          </v-icon>
+          <span>Основные показатели</span>
+        </summary>
+        <div class="department__indicators-body">
+          bye
+        </div>
+      </details>
+    </div>
+    <div class="page__section">
+      <DepartmentTable
+        hideDep
+        :tables="tableData"
+      />
     </div>
   </div>
 </template>
@@ -169,6 +185,29 @@ export default {
       font-size: 24px;
       font-weight: 500;
       margin-bottom: 16px;
+    }
+    &__indicators {
+      &-title {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &::marker  {
+          display: none;
+          content: "";
+        }
+      }
+
+      &-body {
+        padding-left: 24px;
+      }
+
+      &[open] {
+        padding: 8px 0;
+        i {
+          transform: rotate(90deg);
+        }
+      }
     }
     &__actions {
       text-align: right;
