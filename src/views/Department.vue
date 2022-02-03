@@ -80,7 +80,10 @@
           <span>Основные показатели</span>
         </summary>
         <div class="department__indicators-body">
-          bye
+          <v-data-table
+            :headers="headers"
+            :items="indicators"
+          />
         </div>
       </details>
     </div>
@@ -113,6 +116,29 @@ export default {
     subord2Id: null,
     subord3: null,
     subord3Id: null,
+    indicators: [],
+    headers: [
+      {
+        text: 'Название',
+        value: 'name',
+      },
+      {
+        text: 'Ед. изменерения',
+        value: 'measure',
+      },
+      {
+        text: 'Период',
+        value: 'measure_period',
+      },
+      {
+        text: 'По плану',
+        value: 'planned',
+      },
+      {
+        text: 'Фактические',
+        value: 'fact',
+      },
+    ],
   }),
 
   components: {
@@ -133,6 +159,8 @@ export default {
     async getData() {
       this.departData = await this.$db.getById(this.id);
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
+      this.indicators = await this.$db.getScoreById(this.id);
+      console.log(this.indicators);
       this.subord();
     },
     blink1() {
@@ -187,10 +215,13 @@ export default {
       margin-bottom: 16px;
     }
     &__indicators {
+      transition: padding .3s ease;
+
       &-title {
         display: flex;
         align-items: center;
         cursor: pointer;
+        font-weight: 500;
 
         &::marker  {
           display: none;
@@ -198,12 +229,8 @@ export default {
         }
       }
 
-      &-body {
-        padding-left: 24px;
-      }
-
       &[open] {
-        padding: 8px 0;
+        padding: 16px 0;
         i {
           transform: rotate(90deg);
         }
