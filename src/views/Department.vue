@@ -63,11 +63,6 @@
             color="primary">
             Показать граф
           </v-btn>
-          <v-btn
-            @click="getIndicators()"
-            color="primary">
-            Показатели
-          </v-btn>
         </div>
       </div>
     </div>
@@ -237,8 +232,9 @@ export default {
       }
     }
     &__actions {
-      text-align: right;
-      height: 100%;
+      button {
+        width: 100%;
+      }
     }
     &__common {
       display: flex;
