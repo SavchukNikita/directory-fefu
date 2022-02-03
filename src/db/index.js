@@ -82,7 +82,7 @@ export default class Database {
 
   async searchByName(name) {
     let res = await this.getAll();
-    res = res.filter((depart) => depart.name.indexOf(name, 0) >= 0);
+    res = res.filter((depart) => depart.name.toLowerCase().indexOf(name.toLowerCase(), 0) >= 0);
     return res;
   }
 
