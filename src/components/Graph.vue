@@ -13,7 +13,7 @@
           </v-btn>
         </v-row>
         <v-row class="container" align='center' justify='center'>
-          <div id="tree" ref="tree"></div>
+          <OrgChart :data="data" id="tree" ref="tree"></OrgChart>
         </v-row>
       </v-row>
     </v-sheet>
@@ -21,11 +21,15 @@
 </template>
 
 <script>
-import OrgChart from '@balkangraph/orgchart.js';
+// import OrgChart from '@balkangraph/orgchart.js';
+import OrgChart from './OrgChart.vue';
 import getGraphData from '../db/graph';
 
 export default {
-  name: 'Graph',
+  name: 'tree',
+  components: {
+    OrgChart,
+  },
   data() {
     return {
       data: null,
@@ -43,24 +47,14 @@ export default {
     },
   },
   methods: {
-    mytree(domEl, x) {
-      this.chart = new OrgChart(domEl, {
-        nodes: x,
-        nodeBinding: {
-          field_0: 'name',
-          img_0: 'img',
-        },
-      });
-    },
     close() {
       this.$emit('graphVisible', false);
     },
   },
   watch: {
-    id() {
-      this.data = getGraphData(this.id, this.$db);
+    async id() {
+      this.data = await getGraphData(this.id, this.$db);
       console.log(this.data);
-      this.mytree(this.$refs.tree, this.data);
     },
   },
 };

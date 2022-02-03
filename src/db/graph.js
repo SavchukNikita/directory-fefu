@@ -1,9 +1,23 @@
-export default async function getChildren(id, db) {
-  let firstGeneration = null;
-  firstGeneration = await db.getByFilters({ dependence: id });
-  console.log('firstGeneration', firstGeneration);
-  const data = [];
+let root = null;
+const data = [];
+const children = [];
+
+export default async function getGraphData(id, db) {
+  root = await db.getById(id);
+  data.push({ id: root.id, name: root.name });
+  // eslint-disable-next-line no-use-before-define
+  getChildren(id, db);
+  console.log('data', data);
+  console.log('children', children);
   return data;
+}
+async function getChildren(id, db) {
+  children[id] = await db.getByFilters({ dependence: id });
+  console.log(children[id], id);
+  children[id].forEach((el) => {
+    data.push({ id: el.id, pid: el.dependence, name: el.name });
+    getChildren(el.id, db);
+  });
 }
 
 // 1) Получить детей
