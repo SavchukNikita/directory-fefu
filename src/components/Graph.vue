@@ -7,8 +7,8 @@
       class="sheet__graph ">
       <v-row class="sheet" align='start' justify='center'>
         <v-row class="container" align='start' justify='end'>
-          <v-btn class="closebtn" rounded
-            color="white" @click="close">
+          <v-btn class="closebtn" outlined rounded
+             @click="close">
             Закрыть
           </v-btn>
         </v-row>
@@ -65,6 +65,9 @@ export default {
   max-height: 100vh !important;
   width: 100% !important
 }
+.row {
+  margin: 0 !important;
+}
 .sheet__graph {
   background-color: #fefefe;
   width: 100% !important;
@@ -72,9 +75,16 @@ export default {
   max-height: 100% !important;
   margin: 0px !important;
 }
+.boc-search {
+  display: none;
+}
+.container {
+  padding: 0px !important;
+  max-width: none !important;
+}
 .closebtn {
+  margin-right: 25px;
   margin-top: 25px;
-
   background-color: #fefefe;
   color: #0e0e0e;
 }
