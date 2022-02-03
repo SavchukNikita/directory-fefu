@@ -155,7 +155,6 @@ export default {
       this.departData = await this.$db.getById(this.id);
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
       this.indicators = await this.$db.getScoreById(this.id);
-      console.log(this.indicators);
       this.subord();
     },
     blink1() {
