@@ -1,6 +1,6 @@
 <template>
   <div class="page department">
-    <Graph :id="departData.id" v-model="graphVisible"></Graph>
+    <Graph :id="departData.id" v-model="graphVisible" v-if="graphVisible"></Graph>
     <div class="page__section">
       <div class="department__title">
         {{ departData.name }}

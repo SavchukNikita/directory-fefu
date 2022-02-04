@@ -31,6 +31,12 @@ export default {
   mounted() {
     this.mytree(this.$refs.tree, this.data);
   },
+
+  watch: {
+    data() {
+      this.mytree(this.$refs.tree, this.data);
+    },
+  },
 };
 </script>
 

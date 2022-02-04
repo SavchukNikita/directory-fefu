@@ -7,9 +7,9 @@
       class="sheet__graph ">
       <v-row class="sheet" align='start' justify='center'>
         <v-row class="container" align='start' justify='end'>
-          <v-btn class="closebtn" outlined rounded
+          <v-btn class="closebtn" icon
              @click="close">
-            Закрыть
+            <v-icon> mdi-close </v-icon>
           </v-btn>
         </v-row>
         <v-row class="container" align='center' justify='center'>
@@ -50,11 +50,14 @@ export default {
     close() {
       this.$emit('graphVisible', false);
     },
-  },
-  watch: {
-    async id() {
+
+    async getGraph() {
       this.data = await getGraphData(this.id, this.$db);
     },
+  },
+  created() {
+    console.log('hi');
+    this.getGraph();
   },
 };
 </script>
@@ -83,11 +86,6 @@ export default {
   max-width: none !important;
 }
 .closebtn {
-  margin-right: 25px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  background-color: #fefefe;
-  color: #0e0e0e;
-  width: 180px !important;
+  margin: 40px 60px;
 }
 </style>
