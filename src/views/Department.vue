@@ -1,7 +1,6 @@
 <template>
   <div class="page department">
     <Graph :id="departData.id" v-model="graphVisible"></Graph>
-    <Indicators :id="departData.id" v-model="indicatorsVisible"></Indicators>
     <div class="page__section">
       <div class="department__title">
         {{ departData.name }}
@@ -78,6 +77,7 @@
           <v-data-table
             :headers="headers"
             :items="indicators"
+            :item-class="row_classes"
           />
         </div>
       </details>
@@ -94,7 +94,6 @@
 <script>
 import DepartmentTable from '@/components/DepartmentTable.vue';
 import Graph from '@/components/Graph.vue';
-import Indicators from '@/components/Indicators.vue';
 
 export default {
   name: 'Department',
@@ -103,7 +102,6 @@ export default {
     tableData: [],
     id: null,
     graphVisible: false,
-    indicatorsVisible: false,
     departData: {},
     subord1: null,
     subord1Id: null,
@@ -139,7 +137,6 @@ export default {
   components: {
     DepartmentTable,
     Graph,
-    Indicators,
   },
   created() {
     this.id = this.$route.params.id;
@@ -155,6 +152,12 @@ export default {
       this.departData = await this.$db.getById(this.id);
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
       this.indicators = await this.$db.getScoreById(this.id);
+      this.indicators.forEach((el, index) => {
+        if (el.fact === el.planned) {
+          this.indicators[index].color = true;
+        }
+      });
+      console.log('indicators', this.indicators);
       this.subord();
     },
     blink1() {
@@ -175,9 +178,6 @@ export default {
     getGraph() {
       this.graphVisible = true;
     },
-    getIndicators() {
-      this.indicatorsVisible = true;
-    },
     subord() {
       const Data = this.departData.dependence;
       this.$db.getById(Data).then((res) => {
@@ -193,11 +193,20 @@ export default {
         });
       });
     },
+    row_classes(item) {
+      if (item.color === true) {
+        return item.color === true ? 'row-color' : 'row-none-color';
+      }
+      return null;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+  .row-none-color {
+    background-color: #fff
+  }
   .v-btn {
     margin: 5px;
     width: 60%
@@ -257,5 +266,11 @@ export default {
         margin-right: 4px;
       }
     }
+  }
+</style>
+
+<style lang="scss">
+  .row-color {
+    background-color: #ACE1AFAF !important;
   }
 </style>

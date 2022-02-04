@@ -84,8 +84,10 @@ export default {
 }
 .closebtn {
   margin-right: 25px;
-  margin-top: 25px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   background-color: #fefefe;
   color: #0e0e0e;
+  width: 180px !important;
 }
 </style>

@@ -15,10 +15,14 @@ export default {
   methods: {
     mytree(domEl, x) {
       this.chart = new OrgChart(domEl, {
+        // template: 'rony',
+        editForm: {
+          photoBinding: null,
+        },
         nodes: x,
         nodeBinding: {
           field_0: 'name',
-          img_0: 'img',
+          img_0: 'https://pbs.twimg.com/media/ChsJM53WEAEi14Y.jpg:large',
         },
       });
     },
