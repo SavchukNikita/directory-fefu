@@ -1,29 +1,34 @@
 <template>
   <header class="header">
-    <div class="header__section">
+    <router-link to="./" class="header__section">
       <img src="@/assets/logo.png" alt="logo" class="header__logo">
       <div class="header__title">
         <span>Справочник подразделений</span>
       </div>
-    </div>
-    <v-text-field
-      outlined
-      hide-details
-      dense
-      class="header__input"
-      append-icon="mdi-zoom"
-      placeholder="Поиск подразделений"
-    />
+    </router-link>
+    <Search></Search>
   </header>
 </template>
 
 <script>
+import Search from '@/components/search.vue';
+
 export default {
   name: 'Header',
 
-  data: () => ({
-    isSearch: false,
-  }),
+  components: {
+    Search,
+  },
+  data() {
+    return {
+      search: null,
+    };
+  },
+  methods: {
+    goHome() {
+      this.$router.push({ path: './' });
+    },
+  },
 };
 </script>
 
@@ -39,6 +44,7 @@ export default {
     &__section {
       display: flex;
       align-items: center;
+      text-decoration: none;
     }
 
     &__logo {
