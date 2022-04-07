@@ -153,25 +153,13 @@ export default {
       this.tableData = await this.$db.getByFilters({ dependence: this.id });
       this.indicators = await this.$db.getScoreById(this.id);
       this.indicators.forEach((el, index) => {
-        if (this.IsTrueConditions(el)) {
+        if (Number(el.fact) >= Number(el.planned)) {
           this.indicators[index].color = true;
         }
       });
       this.subord();
     },
-	IsTrueConditions(el){
-		var pos = el.planned.indexOf("Не менее") + 9;
-  
-		if (el.planned.indexOf("Не менее") != (-1)) {
-			if (((el.planned.substr(pos) <= el.fact) && (el.planned.substr(pos).length <= el.fact.length)) || (el.fact === el.planned)) return true;	
-		};
-		
-		if (el.fact === el.planned) return true;
-
-		return false;	
-	}
-	,
-    blink1() {
+	    blink1() {
       this.$router.push({
         path: `/${this.subord1Id}`,
       });
